@@ -1,0 +1,21 @@
+services:
+  uccnc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: local/uccnc:latest
+    container_name: uccnc
+    shm_size: "256m"
+    environment:
+      - VNC_PW=uccnc
+      - VNC_RESOLUTION=1280x720
+      - UCCNC_PROFILE=Stepcraft_M1000T
+    ports:
+      - "6901:6901"  # noVNC
+    user: "1000:1000"
+    volumes:
+      - "./gcode_files:/gcode_files:ro"
+      - "./wine:/wine:rw"
+    network_mode: host
+    devices:
+      - /dev/dri:/dev/dri
